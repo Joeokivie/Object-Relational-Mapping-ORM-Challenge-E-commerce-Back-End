@@ -13,18 +13,19 @@ router.get('/', (req, res) => {
     },
   })
     .then((dbTagData) => {
-      if (dbTagData.length === 0) {
-        // Handle case where no categories are found
-        return res.status(404).json({ message: "No categories found." });
+      if (!dbTagData || dbTagData.length === 0) {
+        // No categories found
+        return res.status(404).json({ message: "No categories found" });
       }
       // Categories found, respond with the data
       return res.json(dbTagData);
     })
     .catch((err) => {
       console.error(err);
-      // Handle other errors
-      return res.status(500).json({ error: "Internal server error." });
-    });
+      // Handle errors and send a 500 response
+      return res.status(500).json({ error: "Internal server error" });
+  });
+});
   
 
 router.get('/:id', (req, res) => {
